@@ -12,7 +12,7 @@ abstract class AbstractController
     const   CT_HTML = 'text/html',
             CT_JSON = 'application/json';
 
-    public static function render($file,$params = array()){
+    public function render($file,$params = array()){
         return Kernel::$twig->render($file,$params);
     }
 
@@ -27,6 +27,15 @@ abstract class AbstractController
         return $this->getResponse(
             json_encode($data),
             self::CT_JSON
+        );
+    }
+
+    public function getRenderResponse($file,$params = array()):Response{
+        return $this->getResponse(
+            $this->render(
+                $file,
+                $params
+            )
         );
     }
 }
