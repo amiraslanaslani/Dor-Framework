@@ -1,6 +1,7 @@
 {
     "require": {
         "zeptech/annotations": "^1.1",
-        "twig/twig": "^2.4"
+        "twig/twig": "^2.4",
+        "illuminate/database": "^5.6"
     }
 }

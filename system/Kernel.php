@@ -7,13 +7,14 @@
 
 namespace Dor;
 
-require_once(__DIR__ . '/request.php');
-require_once(__DIR__ . '/response.php');
+require_once(__DIR__ . '/Request.php');
+require_once(__DIR__ . '/Response.php');
 require_once(__DIR__ . '/AbstractController.php');
 
 use Dor\Util\{
     ErrorResponse, Response, Request
 };
+use Illuminate\Database\Capsule\Manager as CapsuleManager;
 use zpt\anno\Annotations;
 
 class Kernel
@@ -27,7 +28,7 @@ class Kernel
         // Load config file.
         Kernel::$config = include(__DOR_ROOT__ . 'config.php');
 
-        // Check and set debug mode
+        // Check and set debug mode.
         if(Kernel::$config['debug_mode']){
             $this->enableDebugMode();
         }
@@ -38,6 +39,19 @@ class Kernel
         // Setup Twig template engine.
         $loader = new \Twig_Loader_Filesystem(__DOR_ROOT__ . 'src/view/');
         Kernel::$twig = new \Twig_Environment($loader);
+
+        //Setup Illuminate database if there is database config.
+        if(Kernel::$config['database'] !== false) {
+            $capsule = new CapsuleManager();
+            $capsule->addConnection(Kernel::$config['database']);
+            $capsule->setAsGlobal();
+            $capsule->bootEloquent();
+        }
+
+        // Load models
+        foreach (glob(__DOR_ROOT__ . Kernel::$config['system']['directories']['model'] . "/*.php") as $filename) {
+            include_once($filename);
+        }
     }
 
     private function enableDebugMode(){
@@ -65,7 +79,7 @@ class Kernel
     public static function getResponse(Request $req):Response{
 
         // Finding correct controller for request.
-        foreach (glob(__DOR_ROOT__ . "src/controllers/*.php") as $filename) {
+        foreach (glob(__DOR_ROOT__ . Kernel::$config['system']['directories']['controller'] . "/*.php") as $filename) {
             $className = '\\Dor\\Controller\\' . basename($filename, '.php');
             $loadedClasses[] = $className;
             include_once($filename);

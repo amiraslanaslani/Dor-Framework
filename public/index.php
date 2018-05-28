@@ -8,7 +8,7 @@
 const __DOR_ROOT__ = __DIR__ . '/../';
 
 require_once(__DOR_ROOT__ . "vendor/autoload.php");
-require_once(__DOR_ROOT__ . "system/kernel.php");
+require_once(__DOR_ROOT__ . "system/Kernel.php");
 
 $kernel = new \Dor\Kernel();
 $kernel->sendResponse(
