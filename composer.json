@@ -1,0 +1,6 @@
+{
+    "require": {
+        "zeptech/annotations": "^1.1",
+        "twig/twig": "^2.4"
+    }
+}
