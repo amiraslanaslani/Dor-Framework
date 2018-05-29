@@ -12,5 +12,5 @@ require_once(__DOR_ROOT__ . "system/Kernel.php");
 
 $kernel = new \Dor\Kernel();
 $kernel->sendResponse(
-    Kernel::createRequestFromCurrent()
+    \Dor\Kernel::createRequestFromCurrent()
 );

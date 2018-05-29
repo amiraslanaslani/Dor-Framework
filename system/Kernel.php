@@ -49,6 +49,7 @@ class Kernel
         }
 
         // Load models
+        require_once(__DOR_ROOT__ . 'system/AbstractModel.php');
         foreach (glob(__DOR_ROOT__ . Kernel::$config['system']['directories']['model'] . "/*.php") as $filename) {
             include_once($filename);
         }

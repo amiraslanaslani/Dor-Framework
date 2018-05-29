@@ -4,5 +4,8 @@
         "twig/twig": "^2.4",
         "illuminate/database": "^5.6",
         "symfony/console": "^4.0"
+    },
+    "require-dev": {
+        "symfony/web-server-bundle": "^4.0"
     }
 }
