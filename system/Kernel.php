@@ -10,9 +10,10 @@ namespace Dor;
 require_once(__DIR__ . '/Request.php');
 require_once(__DIR__ . '/Response.php');
 require_once(__DIR__ . '/AbstractController.php');
+require_once(__DIR__ . '/Router.php');
 
 use Dor\Util\{
-    ErrorResponse, Response, Request
+    ErrorResponse, Response, Request, Router
 };
 use Illuminate\Database\Capsule\Manager as CapsuleManager;
 use zpt\anno\Annotations;
@@ -74,61 +75,20 @@ class Kernel
         $request->headers = getallheaders();
         $request->host = $_SERVER['HTTP_HOST'];
         $request->uri = $_SERVER['REQUEST_URI'];
+        $request->requestType = strtolower($_SERVER['REQUEST_METHOD']);
         return $request;
     }
 
     public static function getResponse(Request $req):Response{
 
-        // Finding correct controller for request.
-        foreach (glob(__DOR_ROOT__ . Kernel::$config['system']['directories']['controller'] . "/*.php") as $filename) {
-            $className = '\\Dor\\Controller\\' . basename($filename, '.php');
-            $loadedClasses[] = $className;
-            include_once($filename);
+        $router = new Router(
+            $req,
+            __DOR_ROOT__ . Kernel::$config['system']['directories']['controller'],
+            '\\Dor\\Controller\\'
+        );
 
-            $classReflector = new \ReflectionClass($className);
-
-            foreach ($classReflector->getMethods() as $methodReflector) {
-                $annotations = new Annotations($methodReflector);
-
-                $preg1 = str_replace(
-                    "/",
-                    "\/",
-                    preg_replace(
-                        "/{(\w*)}/",
-                        "\w*",
-                        $annotations['Route']
-                    )
-                );
-
-                $isThisRoute = preg_match(
-                    '/^' . $preg1 . '$/',
-                    $req->uri,
-                    $r
-                );
-
-                // If this method is correct method to get response for this request
-                if ($annotations->hasAnnotation("Route") && $isThisRoute) {
-                    $tmpUri = '~' . $req->uri . '~';
-                    $tmpRoute = '~' . $annotations['Route'] . '~';
-
-                    $preg2 = preg_split ("/{(\w*)}/", $tmpRoute);
-                    $preg3 = '/' . str_replace("/","\/","(" . implode(")|(", $preg2) . ")") . '/';
-                    $preg4 = preg_split ($preg3 , $tmpUri);
-
-                    // Remove first and last element of array
-                    array_pop($preg4);
-                    array_shift($preg4);
-
-                    // Get response of request and return it to response sender.
-                    $controller = new $className();
-                    $methodName = $methodReflector->name;
-                    return $controller->$methodName(
-                        $preg4
-                    );
-                }
-            }
-
-        }
+        if($router->iterateOverControllers())
+            return $router->getResponse();
 
         // There is no controller for this URI!
         $noAnyControllerResponse = new Response();
@@ -137,6 +97,7 @@ class Kernel
             Kernel::$config['app']['404_page'],
             array()
         );
+        return $noAnyControllerResponse;
     }
 
     public function sendResponse(Request $request){

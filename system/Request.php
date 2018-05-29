@@ -8,7 +8,13 @@
 namespace Dor\Util;
 
 class Request {
+    const   POST = 'post',
+            GET = 'get',
+            DELETE = 'delete',
+            PUT = 'put';
+
+    public $requestType = 'get';
     public $headers = array();
-    public $uri = '';
-    public $host = '';
+    public $uri = '/';
+    public $host = 'localhost';
 }
