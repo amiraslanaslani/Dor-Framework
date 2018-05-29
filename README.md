@@ -34,11 +34,6 @@ There is you can use annotations to set routing in the system.
 There is a example of very very simple controller just to show how you can use annotations to routing:
 ```php
 <?php
-/**
- * User: Amir Aslan Aslani
- * Date: 5/25/18
- * Time: 9:47 PM
- */
 
 namespace Dor\Controller;
 
