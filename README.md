@@ -44,26 +44,26 @@ class MainController extends AbstractController
     /**
      * @Route(["/page/{id}", "/post/{id}"])
      */
-    public function index($params){
-        $body = 'This Article\s id is ' . $params[0];
-        return new $this->getResponse($body);
+    public function index($param){
+        $body = 'This Article\'s id is ' . $param['id'];
+        return $this->getResponse($body);
     }
 
     /**
      * @Route("/login")
      * @Method(["post","get"])
      */
-    public function login($params){
+    public function login($param){
         $body = 'There is a exciting login page that just you can not see that! :D';
-        return new $this->getResponse($body);
+        return $this->getResponse($body);
     }
 
     /**
      * @Route("/hi")
      * @Method("post")
      */
-    public function sayHi($params){
-        return new $this->getResponse("<h1>Hi!</h1>");
+    public function sayHi($param){
+        return $this->getResponse("<h1>Hi!</h1>");
     }
 }
 ```

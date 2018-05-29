@@ -42,7 +42,8 @@ class Router
 
                 $annotations = new Annotations($methodReflector);
 
-                if( $this->checkRequestMethod($annotations) &&
+                if( $annotations->isAnnotatedWith("Route") &&
+                    $this->checkRequestMethod($annotations) &&
                     $this->checkRequestedURI($annotations) ){
 
                     $this->isControllerFind = true;
@@ -125,6 +126,8 @@ class Router
 
         // If this method is correct method to get response for this request
         if ($isThisRoute) {
+            preg_match_all("/{(\w*)}/",$route,$params_key);
+
             $tmpUri = '~' . $this->request->uri . '~';
             $tmpRoute = '~' . $route . '~';
             $preg2 = preg_split ("/{(\w*)}/", $tmpRoute);
@@ -134,7 +137,7 @@ class Router
             // Remove first and last element of array
             array_pop($preg4);
             array_shift($preg4);
-            $this->params = $preg4;
+            $this->params = array_combine($params_key[1], $preg4);
             return true;
         }
         else{

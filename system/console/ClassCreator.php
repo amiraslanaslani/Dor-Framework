@@ -58,6 +58,11 @@ abstract class ClassCreator extends Command
 
         try{
             $filePath = __BASE_ROOT__ . "{$this->directory}/{$className}.php";
+
+            if (!file_exists(__BASE_ROOT__ . $this->directory)) {
+                mkdir(__BASE_ROOT__ . $this->directory, 0777, true);
+            }
+
             if(file_exists($filePath)){
                 throw new \Exception("This class is exists!");
             }
