@@ -73,7 +73,15 @@ class Router
 
     private function checkRequestMethod(Annotations $annotations){
         if($annotations->isAnnotatedWith('Method')){
-            if(strtolower(trim($annotations['Method'])) == $this->request->requestType){
+            if(is_array($annotations['Method'])){
+                foreach ($annotations['Method'] as $method){
+                    if(strtolower(trim($method)) == $method){
+                        return true;
+                    }
+                }
+                return false;
+            }
+            elseif(strtolower(trim($annotations['Method'])) == $this->request->requestType){
                 return true;
             }
             else
@@ -87,13 +95,26 @@ class Router
         if(! $annotations->isAnnotatedWith('Route')) {
             return false;
         }
+        if(is_array($annotations['Route'])){
+            foreach ($annotations['Route'] as $route){
+                if($this->checkRoute($route))
+                    return true;
+            }
+            return false;
+        }
+        else{
+            return $this->checkRoute($annotations['Route']);
+        }
+    }
+
+    private function checkRoute($route){
         $preg1 = str_replace(
             "/",
             "\/",
             preg_replace(
                 "/{(\w*)}/",
                 "\w*",
-                $annotations['Route']
+                $route
             )
         );
         $isThisRoute = preg_match(
@@ -103,9 +124,9 @@ class Router
         );
 
         // If this method is correct method to get response for this request
-        if ($annotations->isAnnotatedWith("Route") && $isThisRoute) {
+        if ($isThisRoute) {
             $tmpUri = '~' . $this->request->uri . '~';
-            $tmpRoute = '~' . $annotations['Route'] . '~';
+            $tmpRoute = '~' . $route . '~';
             $preg2 = preg_split ("/{(\w*)}/", $tmpRoute);
             $preg3 = '/' . str_replace("/","\/","(" . implode(")|(", $preg2) . ")") . '/';
             $preg4 = preg_split ($preg3 , $tmpUri);
