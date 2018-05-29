@@ -21,7 +21,8 @@
     'system' => [
         'directories' => [
             'controller' => 'src/controllers',
-            'model' => 'src/models'
+            'model' => 'src/models',
+            'view' => 'src/view'
         ]
     ]
 ];

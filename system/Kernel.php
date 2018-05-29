@@ -37,7 +37,7 @@ class Kernel
         }
 
         // Setup Twig template engine.
-        $loader = new \Twig_Loader_Filesystem(__DOR_ROOT__ . 'src/view/');
+        $loader = new \Twig_Loader_Filesystem(__DOR_ROOT__ . Kernel::$config['system']['directories']['view'] . '/');
         Kernel::$twig = new \Twig_Environment($loader);
 
         //Setup Illuminate database if there is database config.
