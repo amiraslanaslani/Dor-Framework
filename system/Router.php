@@ -16,8 +16,6 @@ class Router
     private $controllersPath;
     private $controllersNamespace;
 
-    private $params = array();
-
     private $isControllerFind = false;
     private $findRoute = array();
 
@@ -47,8 +45,8 @@ class Router
                     $this->checkRequestedURI($annotations) ){
 
                     $this->isControllerFind = true;
-                    $this->findRoute['class'] = $className;
-                    $this->findRoute['method'] = $methodReflector->name;
+                    $this->findRoute['class'] = $classReflector;
+                    $this->findRoute['method'] = $methodReflector;
                 }
 
             }
@@ -61,15 +59,35 @@ class Router
     public function getResponse(){
         if($this->isControllerFind){
 
+            $parameters = array();
+            $methodReflection = $this->findRoute['method'];
+
+            foreach ($methodReflection->getParameters() as $parameter){
+                if($parameter->getClass() != null) {
+                    $param = $this->getResponseParametersValue($parameter->getType());
+                    $parameters[] = $param;
+                }
+                else{
+                    $parameters[] = null;
+                }
+            }
+
             // Get response of request and return it to response sender.
-            $className = $this->findRoute['class'];
-            $methodName = $this->findRoute['method'];
-            $controller = new $className();
-            return $controller->$methodName(
-                $this->params
-            );
+            $controllerObject = $this->findRoute['class']->newInstance();
+            return $methodReflection->invokeArgs($controllerObject, $parameters);
         }
         return null;
+    }
+
+    private function getResponseParametersValue($dataType){
+        echo $dataType;
+        switch ($dataType){
+            case 'Dor\Util\Request':
+                return $this->request;
+                break;
+            default:
+                return null;
+        }
     }
 
     private function checkRequestMethod(Annotations $annotations){
@@ -137,7 +155,7 @@ class Router
             // Remove first and last element of array
             array_pop($preg4);
             array_shift($preg4);
-            $this->params = array_combine($params_key[1], $preg4);
+            $this->request->inputParams = array_combine($params_key[1], $preg4);
             return true;
         }
         else{

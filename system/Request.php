@@ -17,4 +17,5 @@ class Request {
     public $headers = array();
     public $uri = '/';
     public $host = 'localhost';
+    public $inputParams = array();
 }
