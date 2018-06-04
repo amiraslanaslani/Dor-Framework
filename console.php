@@ -9,14 +9,20 @@ require_once(__BASE_ROOT__ . "vendor/autoload.php");
 use Symfony\Component\Console\Application;
 
 require_once(__BASE_ROOT__ . "system/console/ClassCreator.php");
+require_once(__BASE_ROOT__ . "system/console/TableManager.php");
 require_once(__BASE_ROOT__ . "system/console/commands/AddControllerCommand.php");
 require_once(__BASE_ROOT__ . "system/console/commands/AddModelCommand.php");
-
+require_once(__BASE_ROOT__ . "system/console/commands/AddTableCommand.php");
+require_once(__BASE_ROOT__ . "system/console/commands/UpTableCommand.php");
+require_once(__BASE_ROOT__ . "system/console/commands/DownTableCommand.php");
 
 $application = new Application("d'Or Framework Console");
 
 $application->add(new \Dor\Console\Command\AddControllerCommand());
 $application->add(new \Dor\Console\Command\AddModelCommand());
+$application->add(new \Dor\Console\Command\AddTableCommand());
+$application->add(new \Dor\Console\Command\UpTableCommand());
+$application->add(new \Dor\Console\Command\DownTableCommand());
 
 if(file_exists(__BASE_ROOT__ . 'vendor/symfony/web-server-bundle/Command/ServerStartCommand.php')) {
     require_once(__BASE_ROOT__ . 'vendor/symfony/web-server-bundle/Command/ServerStartCommand.php');
