@@ -9,6 +9,7 @@ namespace Dor;
 
 require_once(__DIR__ . '/Request.php');
 require_once(__DIR__ . '/Response.php');
+require_once(__DIR__ . '/RedirectResponse.php');
 require_once(__DIR__ . '/AbstractController.php');
 require_once(__DIR__ . '/Router.php');
 
@@ -16,13 +17,13 @@ use Dor\Util\{
     ErrorResponse, Response, Request, Router
 };
 use Illuminate\Database\Capsule\Manager as CapsuleManager;
-use zpt\anno\Annotations;
 
 class Kernel
 {
     private $response;
     public static $twig;
     public static $config;
+    public static $capsule;
 
     public function __construct(){
 
@@ -40,6 +41,7 @@ class Kernel
         // Setup Twig template engine.
         $loader = new \Twig_Loader_Filesystem(__DOR_ROOT__ . Kernel::$config['system']['directories']['view'] . '/');
         Kernel::$twig = new \Twig_Environment($loader);
+        require_once __DOR_ROOT__ . Kernel::$config['system']['directories']['configs'] . '/twig.php';
 
         //Setup Illuminate database if there is database config.
         if(Kernel::$config['database'] !== false) {
@@ -47,7 +49,9 @@ class Kernel
             $capsule->addConnection(Kernel::$config['database']);
             $capsule->setAsGlobal();
             $capsule->bootEloquent();
+            Kernel::$capsule = $capsule;
         }
+        require_once __DOR_ROOT__ . Kernel::$config['system']['directories']['configs'] . '/illuminate.php';
 
         // Load models
         require_once(__DOR_ROOT__ . 'system/AbstractModel.php');
@@ -76,6 +80,8 @@ class Kernel
         $request->host = $_SERVER['HTTP_HOST'];
         $request->uri = $_SERVER['REQUEST_URI'];
         $request->requestType = strtolower($_SERVER['REQUEST_METHOD']);
+        $request->get = $_GET;
+        $request->post = $_POST;
         return $request;
     }
 

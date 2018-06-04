@@ -18,4 +18,6 @@ class Request {
     public $uri = '/';
     public $host = 'localhost';
     public $inputParams = array();
+    public $post = array();
+    public $get = array();
 }

@@ -15,14 +15,17 @@
     ],
 
     'app' => [
-        '404_page' => 'pageNotFound.html.php'
+        'base_url' => 'http://localhost:8000',
+        '404_page' => 'pageNotFound.html.php',
     ],
 
     'system' => [
+
         'directories' => [
             'controller' => 'src/controllers',
             'model' => 'src/models',
-            'view' => 'src/view'
+            'view' => 'src/view',
+            'configs' => 'config'
         ]
     ]
 ];

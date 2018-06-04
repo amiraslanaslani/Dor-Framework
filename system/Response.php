@@ -57,4 +57,8 @@ class Response {
     public function setStatus($status){
         $this->headers[] = "HTTP/1.1 " . $status;
     }
+
+    public function addHeader($header){
+        $this->headers[] = $header;
+    }
 }

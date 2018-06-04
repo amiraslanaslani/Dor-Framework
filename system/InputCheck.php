@@ -25,7 +25,7 @@ class InputCheck
         }
     }
 
-    public static function cleanRawText($string){
+    public static function cleanRawText(string $string): string{
 
     }
 

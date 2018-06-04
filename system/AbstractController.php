@@ -7,6 +7,8 @@
 
 namespace Dor\Util;
 
+use Dor\Kernel;
+
 abstract class AbstractController
 {
     const   CT_HTML = 'text/html',

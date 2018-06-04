@@ -8,6 +8,7 @@
 namespace Dor\Util;
 
 
+use Dor\Kernel;
 use zpt\anno\Annotations;
 
 class Router
@@ -80,10 +81,12 @@ class Router
     }
 
     private function getResponseParametersValue($dataType){
-        echo $dataType;
         switch ($dataType){
             case 'Dor\Util\Request':
                 return $this->request;
+                break;
+            case 'Illuminate\Database\Capsule\Manager':
+                return Kernel::$capsule;
                 break;
             default:
                 return null;
