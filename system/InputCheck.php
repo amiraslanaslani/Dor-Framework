@@ -25,8 +25,8 @@ class InputCheck
         }
     }
 
-    public static function cleanRawText(string $string): string{
-
+    public static function cleanRawText(string $string): string {
+        return $string;
     }
 
     public static function isJustContains($string, ...$types){

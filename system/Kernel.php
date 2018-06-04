@@ -12,6 +12,7 @@ require_once(__DIR__ . '/Response.php');
 require_once(__DIR__ . '/RedirectResponse.php');
 require_once(__DIR__ . '/AbstractController.php');
 require_once(__DIR__ . '/Router.php');
+require_once(__DIR__ . '/InputCheck.php');
 
 use Dor\Util\{
     ErrorResponse, Response, Request, Router
@@ -30,6 +31,16 @@ class Kernel
         // Load config file.
         Kernel::$config = include(__DOR_ROOT__ . 'config.php');
 
+        // Setup Twig template engine.
+        $loader = new \Twig_Loader_Filesystem(__DOR_ROOT__ . Kernel::$config['system']['directories']['view'] . '/');
+        Kernel::$twig = new \Twig_Environment(
+            $loader,
+            [
+                'debug' => Kernel::$config['debug_mode']
+            ]
+        );
+        require_once __DOR_ROOT__ . Kernel::$config['system']['directories']['configs'] . '/twig.php';
+
         // Check and set debug mode.
         if(Kernel::$config['debug_mode']){
             $this->enableDebugMode();
@@ -37,11 +48,6 @@ class Kernel
         else{
             $this->disableDebugMode();
         }
-
-        // Setup Twig template engine.
-        $loader = new \Twig_Loader_Filesystem(__DOR_ROOT__ . Kernel::$config['system']['directories']['view'] . '/');
-        Kernel::$twig = new \Twig_Environment($loader);
-        require_once __DOR_ROOT__ . Kernel::$config['system']['directories']['configs'] . '/twig.php';
 
         //Setup Illuminate database if there is database config.
         if(Kernel::$config['database'] !== false) {
@@ -65,6 +71,8 @@ class Kernel
         // Show all errors and warnings
         error_reporting(E_ALL);
         ini_set('display_errors', 1);
+
+        Kernel::$twig->addExtension(new \Twig_Extension_Debug());
     }
 
     private function disableDebugMode(){

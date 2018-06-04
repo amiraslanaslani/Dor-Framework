@@ -21,7 +21,8 @@ class ErrorResponse extends Response
                 'message' => $exception->getMessage(),
                 'file' => $debugMode ? $exception->getFile() : '',
                 'code' => $debugMode ? $exception->getCode() : '',
-                'line' => $debugMode ? $exception->getLine() : ''
+                'line' => $debugMode ? $exception->getLine() : '',
+                'trace'=> $debugMode ? $exception->getTrace(): ''
             )
         );
     }
