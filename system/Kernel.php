@@ -90,6 +90,7 @@ class Kernel
         $request->requestType = strtolower($_SERVER['REQUEST_METHOD']);
         $request->get = $_GET;
         $request->post = $_POST;
+        $request->file = $_FILES;
         return $request;
     }
 

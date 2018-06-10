@@ -47,7 +47,7 @@ class TableManager extends Command
             $table = new $className($capsule);
             $method = $this->method;
             $table->$method();
-            echo 'Table\'s work is done database successfully in database! :)';
+            echo "Table's work is done database successfully in database! :) \n";
         }
         else{
             throw new \Exception("There is a problem in DB connection!");

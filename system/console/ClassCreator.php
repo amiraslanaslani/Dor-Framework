@@ -19,6 +19,8 @@ abstract class ClassCreator extends Command
     private $classType;
     private $classTypeText;
 
+    protected $templatesPath = 'system/console/templates/';
+
     protected function setDirectory(string $dir){
         $this->directory = $dir;
         return $this;
@@ -46,7 +48,7 @@ abstract class ClassCreator extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $loader = new \Twig_Loader_Filesystem('system/console/templates/');
+        $loader = new \Twig_Loader_Filesystem($this->templatesPath);
         $twig = new \Twig_Environment($loader);
         $className = $input->getArgument("name") . $this->classTypeText;
         $content = $twig->render(
