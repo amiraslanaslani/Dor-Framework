@@ -10,6 +10,12 @@ namespace Dor\Util;
 
 use Dor\Kernel;
 use zpt\anno\Annotations;
+use Dor\Routing{
+    Route,
+    Router,
+    Method,
+    ResultController
+};
 
 class Router
 {
