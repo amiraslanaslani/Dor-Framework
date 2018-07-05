@@ -15,7 +15,10 @@ require_once(__DIR__ . '/Router.php');
 require_once(__DIR__ . '/InputCheck.php');
 
 use Dor\Util\{
-    ErrorResponse, Response, Request, Router
+    ErrorResponse, Response, Request
+};
+use Dor\Routing\{
+    Route, Router, Method, ResultController
 };
 use Illuminate\Database\Capsule\Manager as CapsuleManager;
 
@@ -97,15 +100,28 @@ class Kernel
     public static function getResponse(Request $req):Response{
 
         $router = new Router(
-            $req,
-            __DOR_ROOT__ . Kernel::$config['system']['directories']['controller'],
             '\\Dor\\Controller\\'
         );
 
-        if($router->iterateOverControllers())
-            return $router->getResponse();
+        $controller = $router->getController($req->uri, $req->requestType);
+        if($controller !== false){
+            $parameters = array();
 
-        // There is no controller for this URI!
+            foreach ($controller->rmethod->getParameters() as $parameter){
+                if($parameter->getClass() != null) {
+                    $param = $this->getResponseParametersValue($parameter->getType());
+                    $parameters[] = $param;
+                }
+                else{
+                    $parameters[] = null;
+                }
+            }
+
+            $controllerObject = $controller->rclass->newInstance();
+            return $controller->rmethod->invokeArgs($controllerObject, $parameters);
+        }
+
+        // If there is no controller for this URI!
         $noAnyControllerResponse = new Response();
         $noAnyControllerResponse->setStatus(Response::STATUS[404]);
         $noAnyControllerResponse->body = Kernel::$twig->render(
@@ -113,6 +129,26 @@ class Kernel
             array()
         );
         return $noAnyControllerResponse;
+    }
+
+    private static function getResponseParametersValue($dataType, $inputParameters){
+        switch ($dataType){
+            case 'Dor\Util\Request':
+                return $this->request;
+                break;
+            case 'Dor\Util\UriInput':
+                $uriInput = new Dor\Util\UriInput();
+                foreach($inputParameters as $key => $param){
+                    $uriInput->$key = $param;
+                }
+                return $uriInput;
+                break;
+            case 'Illuminate\Database\Capsule\Manager':
+                return Kernel::$capsule;
+                break;
+            default:
+                return null;
+        }
     }
 
     public function sendResponse(Request $request){

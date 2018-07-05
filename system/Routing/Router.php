@@ -1,13 +1,13 @@
 <?php
 /**
  * User: Amir Aslan Aslani
- * Date: 5/29/18
+ * Date: 7/5/18
  * Time: 3:29 PM
  */
 
 namespace Dor\Routing;
 
-class Routing{
+class Router{
     protected $routes = [];
     protected $controllers_namespace;
 
