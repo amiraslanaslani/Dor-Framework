@@ -28,7 +28,6 @@ abstract class AbstractController
         $response = new Response();
         $response->body = $render;
         $response->addHeader('Content-Type: ' . $content_type);
-        // $response->headers['Content-Type'] = $content_type;s
         return $response;
     }
 

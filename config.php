@@ -25,6 +25,7 @@
             'controller' => 'src/controllers',
             'model' => 'src/models',
             'view' => 'src/view',
+            'routes' => 'src/route',
             'configs' => 'config'
         ]
     ]

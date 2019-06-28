@@ -13,6 +13,7 @@ require_once(__DIR__ . '/RedirectResponse.php');
 require_once(__DIR__ . '/AbstractController.php');
 require_once(__DIR__ . '/Router.php');
 require_once(__DIR__ . '/InputCheck.php');
+require_once(__DIR__ . '/Route.php');
 
 use Dor\Util\{
     ErrorResponse, Response, Request, Router
@@ -99,10 +100,11 @@ class Kernel
         $router = new Router(
             $req,
             __DOR_ROOT__ . Kernel::$config['system']['directories']['controller'],
+            __DOR_ROOT__ . Kernel::$config['system']['directories']['routes'],
             '\\Dor\\Controller\\'
         );
 
-        if($router->iterateOverControllers())
+        if($router->iterateOverRoutes())
             return $router->getResponse();
 
         // There is no controller for this URI!

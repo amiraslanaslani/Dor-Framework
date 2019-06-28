@@ -22,7 +22,7 @@ class ErrorResponse extends Response
                 'file' => $debugMode ? $exception->getFile() : '',
                 'code' => $debugMode ? $exception->getCode() : '',
                 'line' => $debugMode ? $exception->getLine() : '',
-                'trace'=> $debugMode ? $exception->getTrace(): ''
+                'trace'=> $debugMode ? $exception->getTraceAsString(): ''
             )
         );
     }
