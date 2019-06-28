@@ -7,10 +7,8 @@
 
 namespace Dor\Util;
 
-use Dor\Kernel;
 use Dor\AnnotationParser\Annotation;
 use Dor\AnnotationParser\MethodAnnotation;
-use Dor\Util\Route;
 
 class Router
 {
@@ -21,13 +19,15 @@ class Router
 
     private $isControllerFind = false;
     private $findRoute = array();
+    private $rrp = null; // Router Response Parameter
 
-    public function __construct(Request $request, string $controllersPath, string $routesPath, string $controllerNamespace = '')
+    public function __construct(Request $request, string $controllersPath, string $routesPath, string $controllerNamespace = '', RouterResponseParameter $rrp = null)
     {
         $this->request = $request;
         $this->controllersPath = $controllersPath;
         $this->routesPath = $routesPath;
         $this->controllersNamespace = $controllerNamespace;
+        $this->rrp = $rrp == null ? new RouterResponseParameter() : $rrp;
     }
 
     public function getResponse(){
@@ -38,7 +38,8 @@ class Router
 
             foreach ($methodReflection->getParameters() as $parameter){
                 if($parameter->getClass() != null) {
-                    $param = $this->getResponseParametersValue($parameter->getType());
+                    // $param = $this->getResponseParametersValue($parameter->getType());
+                    $param = $this->rrp->getValue($parameter->getType());
                     $parameters[] = $param;
                 }
                 else{
@@ -132,19 +133,6 @@ class Router
             $route->method($annotation->getAnnotation('Method'));
 
         return $route;
-    }
-
-    private function getResponseParametersValue($dataType){
-        switch ($dataType){
-            case 'Dor\Util\Request':
-                return $this->request;
-                break;
-            case 'Illuminate\Database\Capsule\Manager':
-                return Kernel::$capsule;
-                break;
-            default:
-                return null;
-        }
     }
 
     private function checkRouteObject(Route $route):bool{
