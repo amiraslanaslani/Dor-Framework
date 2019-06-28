@@ -5,7 +5,7 @@
  * Time: 8:16 PM
  */
 
-namespace Dor\Util;
+namespace Dor\Http;
 
 class Response {
     const STATUS = array(

@@ -5,7 +5,7 @@
  * Time: 8:17 PM
  */
 
-namespace Dor\Util;
+namespace Dor\Http;
 
 class Request {
     const   POST = 'post',

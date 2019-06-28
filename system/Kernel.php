@@ -7,18 +7,29 @@
 
 namespace Dor;
 
-require_once(__DIR__ . '/Request.php');
-require_once(__DIR__ . '/Response.php');
-require_once(__DIR__ . '/RedirectResponse.php');
+require_once(__DIR__ . '/Http/Request.php');
+require_once(__DIR__ . '/Http/Response.php');
+require_once(__DIR__ . '/Http/RedirectResponse.php');
+
 require_once(__DIR__ . '/AbstractController.php');
-require_once(__DIR__ . '/Router.php');
 require_once(__DIR__ . '/InputCheck.php');
-require_once(__DIR__ . '/Route.php');
-require_once(__DIR__ . '/RouterResponseParameter.php');
+
+require_once(__DIR__ . '/Router/Router.php');
+require_once(__DIR__ . '/Router/Route.php');
+require_once(__DIR__ . '/Router/RouterResponseParameter.php');
 
 use Dor\Util\{
-    ErrorResponse, Response, Request, Router, RouterResponseParameter
+    ErrorResponse
 };
+
+use Dor\Http\{
+    Response, Request
+};
+
+use Dor\Router\{
+    Router, RouterResponseParameter
+};
+
 use Illuminate\Database\Capsule\Manager as CapsuleManager;
 
 class Kernel
@@ -108,9 +119,9 @@ class Kernel
     public static function getResponse(Request $req):Response{
 
         $rrp = new RouterResponseParameter();
-        $rrp->add('Dor\Util\Request', $req);
+        $rrp->add('Dor\Http\Request', $req);
         $rrp->add('Illuminate\Database\Capsule\Manager', Kernel::$capsule);
-        
+
         $router = new Router(
             $req,
             __DOR_ROOT__ . Kernel::$config['system']['directories']['controller'],

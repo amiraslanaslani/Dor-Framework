@@ -5,7 +5,7 @@
  * Time: 3:48 AM
  */
 
-namespace Dor\Util;
+namespace Dor\Http;
 
 use Dor\Kernel;
 

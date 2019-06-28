@@ -5,10 +5,11 @@
  * Time: 5:05 PM
  */
 
-namespace Dor\Util;
+namespace Dor\Router;
 
 use Dor\AnnotationParser\Annotation;
 use Dor\AnnotationParser\MethodAnnotation;
+use Dor\Http\Request;
 
 class Router
 {

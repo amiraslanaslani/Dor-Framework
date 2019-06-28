@@ -5,7 +5,7 @@
  * Time: 6:14 AM
  */
 
-namespace Dor\Util;
+namespace Dor\Router;
 
 class Route
 {

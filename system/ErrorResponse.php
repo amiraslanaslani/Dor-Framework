@@ -8,6 +8,7 @@
 namespace Dor\Util;
 
 use Dor\Kernel;
+use Dor\Http\Response;
 
 class ErrorResponse extends Response
 {
@@ -15,7 +16,7 @@ class ErrorResponse extends Response
     {
         // $debugMode = Kernel::$config['debug_mode'];
         $debugMode = true;
-        
+
         echo Kernel::$twig->render(
             Kernel::$config['app']['error_page'],
             array(

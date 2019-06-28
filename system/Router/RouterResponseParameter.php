@@ -5,7 +5,7 @@
  * Time: 7:00 PM
  */
 
-namespace Dor\Util;
+namespace Dor\Router;
 
 class RouterResponseParameter{
 

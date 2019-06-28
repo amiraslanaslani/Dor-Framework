@@ -8,6 +8,7 @@
 namespace Dor\Util;
 
 use Dor\Kernel;
+use Dor\Http\Response;
 
 abstract class AbstractController
 {
