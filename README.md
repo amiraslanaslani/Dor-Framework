@@ -43,7 +43,7 @@ use Dor\Util\Request;
 class MainController extends AbstractController
 {
     /**
-     * @Route(["/page/{id}", "/post/{id}"])
+     * @Route(/page/{id}, /post/{id})
      */
     public function index(Request $req){
         $body = 'This Article\'s id is ' . $req->inputParams['id'];
@@ -51,8 +51,8 @@ class MainController extends AbstractController
     }
 
     /**
-     * @Route("/login")
-     * @Method(["post","get"])
+     * @Route(/login)
+     * @Method(post, get)
      */
     public function login(){
         $body = 'There is a exciting login page that just you can not see that! :D';
@@ -60,8 +60,8 @@ class MainController extends AbstractController
     }
 
     /**
-     * @Route("/hi")
-     * @Method("post")
+     * @Route(/hi)
+     * @Method(post)
      */
     public function sayHi(){
         return $this->getResponse("<h1>Hi!</h1>");

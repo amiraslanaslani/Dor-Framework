@@ -18,10 +18,17 @@ abstract class AbstractController
         return Kernel::$twig->render($file,$params);
     }
 
+    public function get404RenderResponse($file,$params = array()):Response{
+        $response = $this->getRenderResponse($file,$params);
+        $response->setStatus(Response::STATUS[404]);
+        return $response;
+    }
+
     public function getResponse($render = '',$content_type = self::CT_HTML):Response{
         $response = new Response();
         $response->body = $render;
-        $response->headers['Content-Type'] = $content_type;
+        $response->addHeader('Content-Type: ' . $content_type);
+        // $response->headers['Content-Type'] = $content_type;s
         return $response;
     }
 

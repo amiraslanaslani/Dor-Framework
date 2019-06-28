@@ -86,7 +86,7 @@ class Kernel
         $request = new Request();
         $request->headers = getallheaders();
         $request->host = $_SERVER['HTTP_HOST'];
-        $request->uri = $_SERVER['REQUEST_URI'];
+        $request->uri = explode('?',$_SERVER['REQUEST_URI'])[0];
         $request->requestType = strtolower($_SERVER['REQUEST_METHOD']);
         $request->get = $_GET;
         $request->post = $_POST;

@@ -9,7 +9,8 @@ namespace Dor\Util;
 
 
 use Dor\Kernel;
-use zpt\anno\Annotations;
+use Dor\AnnotationParser\Annotation;
+use Dor\AnnotationParser\MethodAnnotation;
 
 class Router
 {
@@ -33,17 +34,18 @@ class Router
             $loadedClasses[] = $className;
             include_once($filename);
             $classReflector = new \ReflectionClass($className);
+            $classAnnotation = new Annotation($className);
 
             foreach ($classReflector->getMethods() as $methodReflector) {
 
                 if($this->isControllerFind)
                     break;
 
-                $annotations = new Annotations($methodReflector);
-
-                if( $annotations->isAnnotatedWith("Route") &&
-                    $this->checkRequestMethod($annotations) &&
-                    $this->checkRequestedURI($annotations) ){
+                $methodAnnotation = $classAnnotation->getMethod($methodReflector->name);
+                
+                if( $methodAnnotation->hasAnnotation("Route") &&
+                    $this->checkRequestMethod($methodAnnotation) &&
+                    $this->checkRequestedURI($methodAnnotation) ){
 
                     $this->isControllerFind = true;
                     $this->findRoute['class'] = $classReflector;
@@ -93,17 +95,18 @@ class Router
         }
     }
 
-    private function checkRequestMethod(Annotations $annotations){
-        if($annotations->isAnnotatedWith('Method')){
-            if(is_array($annotations['Method'])){
-                foreach ($annotations['Method'] as $method){
+    private function checkRequestMethod(MethodAnnotation $annotations){
+        if($annotations->hasAnnotation('Method')){
+            $annotation = $annotations->getAnnotation('Method');
+            if(is_array($annotation)){
+                foreach ($annotation as $method){
                     if(strtolower(trim($method)) == $method){
                         return true;
                     }
                 }
                 return false;
             }
-            elseif(strtolower(trim($annotations['Method'])) == $this->request->requestType){
+            elseif(strtolower(trim($annotation)) == $this->request->requestType){
                 return true;
             }
             else
@@ -113,29 +116,34 @@ class Router
             return true;
     }
 
-    private function checkRequestedURI(Annotations $annotations){
-        if(! $annotations->isAnnotatedWith('Route')) {
+    private function checkRequestedURI(MethodAnnotation $annotations){
+        if(! $annotations->hasAnnotation('Route')) {
             return false;
         }
-        if(is_array($annotations['Route'])){
-            foreach ($annotations['Route'] as $route){
+        $annotation = $annotations->getAnnotation('Route');
+        if(is_array($annotation)){
+            foreach ($annotation as $route){
                 if($this->checkRoute($route))
                     return true;
             }
             return false;
         }
         else{
-            return $this->checkRoute($annotations['Route']);
+            return $this->checkRoute($annotation);
         }
     }
 
     private function checkRoute($route){
+
+        // var_dump($route);
+        // var_dump($this->request);
+
         $preg1 = str_replace(
             "/",
             "\/",
             preg_replace(
                 "/{(\w*)}/",
-                "\w*",
+                "(\w|-)*",
                 $route
             )
         );
