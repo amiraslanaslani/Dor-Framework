@@ -17,6 +17,7 @@
     'app' => [
         'base_url' => 'http://localhost:8000',
         '404_page' => 'pageNotFound.html.php',
+        'error_page' => 'error.html.php',
     ],
 
     'system' => [

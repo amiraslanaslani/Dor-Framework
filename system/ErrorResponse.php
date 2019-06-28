@@ -13,10 +13,11 @@ class ErrorResponse extends Response
 {
     public function __construct(\Exception $exception)
     {
-        $debugMode = Kernel::$config['debug_mode'];
-
+        // $debugMode = Kernel::$config['debug_mode'];
+        $debugMode = true;
+        
         echo Kernel::$twig->render(
-            'error.html.php',
+            Kernel::$config['app']['error_page'],
             array(
                 'message' => $exception->getMessage(),
                 'file' => $debugMode ? $exception->getFile() : '',

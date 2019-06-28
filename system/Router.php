@@ -7,7 +7,6 @@
 
 namespace Dor\Util;
 
-
 use Dor\Kernel;
 use Dor\AnnotationParser\Annotation;
 use Dor\AnnotationParser\MethodAnnotation;

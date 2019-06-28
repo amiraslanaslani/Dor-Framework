@@ -22,10 +22,12 @@ use Illuminate\Database\Capsule\Manager as CapsuleManager;
 
 class Kernel
 {
-    private $response;
     public static $twig;
     public static $config;
     public static $capsule;
+
+    private $response;
+    private $isOnDebugMode = false;
 
     public function __construct(){
 
@@ -68,6 +70,12 @@ class Kernel
     }
 
     private function enableDebugMode(){
+        $this->isOnDebugMode = true;
+
+        // Whoops error handler added
+        $whoops = new \Whoops\Run;
+        $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+        $whoops->register();
 
         // Show all errors and warnings
         error_reporting(E_ALL);
@@ -77,6 +85,7 @@ class Kernel
     }
 
     private function disableDebugMode(){
+        $this->isOnDebugMode = false;
 
         // Hide all errors and warnings
         error_reporting(0);
@@ -118,14 +127,17 @@ class Kernel
     }
 
     public function sendResponse(Request $request){
-        try {
-            $this->response = $this::getResponse(
-                $request
-            );
+        if($this->isOnDebugMode){
+            $this->setInnerResponse($request);
         }
-        catch (\Exception $exception){
-            include(__DIR__ . '/ErrorResponse.php');
-            $this->response = new ErrorResponse($exception);
+        else{
+            try {
+                $this->setInnerResponse($request);
+            }
+            catch (\Exception $exception){
+                include(__DIR__ . '/ErrorResponse.php');
+                $this->response = new ErrorResponse($exception);
+            }
         }
 
         foreach ($this->response->headers as $header){
@@ -133,5 +145,11 @@ class Kernel
         }
 
         echo $this->response->body;
+    }
+
+    private function setInnerResponse(Request $request){
+        $this->response = $this::getResponse(
+            $request
+        );
     }
 }
