@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a258a021a5bbcd1d3114dd97a8f117ca",
+    "content-hash": "0c2e2772710fc97b99742eb62345a73c",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -158,6 +158,58 @@
                 "http"
             ],
             "time": "2019-06-29T12:11:19+00:00"
+        },
+        {
+            "name": "dor/kernel",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/amiraslanaslani/Dor-Kernel.git",
+                "reference": "eb909f87af24fdfe8ec96f3e3ef66e995383f143"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/amiraslanaslani/Dor-Kernel/zipball/eb909f87af24fdfe8ec96f3e3ef66e995383f143",
+                "reference": "eb909f87af24fdfe8ec96f3e3ef66e995383f143",
+                "shasum": ""
+            },
+            "require": {
+                "dor/http": "0.0.0",
+                "dor/router": "0.0.0",
+                "filp/whoops": "^2.4",
+                "illuminate/database": "^5.6",
+                "php": ">=7.1.0",
+                "symfony/console": "^4.0",
+                "twig/twig": "^2.4"
+            },
+            "require-dev": {
+                "symfony/web-server-bundle": "^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Dor": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "Amir Aslan Aslani",
+                    "email": "man@amiraslan.ir",
+                    "homepage": "http://amiraslan.ir",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Dor Framework's Kernel Classes",
+            "homepage": "http://amiraslan.ir",
+            "keywords": [
+                "Dor",
+                "kernel"
+            ],
+            "time": "2019-06-29T18:58:16+00:00"
         },
         {
             "name": "dor/router",
@@ -1572,7 +1624,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "dor/kernel": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

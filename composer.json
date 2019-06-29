@@ -6,7 +6,8 @@
         "dor/annotationparser": "0.0.0",
         "filp/whoops": "^2.4",
         "dor/http": "0.0.0",
-        "dor/router": "0.0.0"
+        "dor/router": "0.0.0",
+        "dor/kernel": "dev-master"
     },
     "require-dev": {
         "symfony/web-server-bundle": "^4.0"
