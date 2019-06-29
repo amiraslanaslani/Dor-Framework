@@ -1,12 +1,5 @@
 {
     "require": {
-        "twig/twig": "^2.4",
-        "illuminate/database": "^5.6",
-        "symfony/console": "^4.0",
-        "dor/annotationparser": "0.0.0",
-        "filp/whoops": "^2.4",
-        "dor/http": "0.0.0",
-        "dor/router": "0.0.0",
         "dor/kernel": "dev-master"
     },
     "require-dev": {
