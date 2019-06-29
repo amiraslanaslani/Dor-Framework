@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cdaeeaf1bf1ef02c845f45ba5d99a1cb",
+    "content-hash": "a258a021a5bbcd1d3114dd97a8f117ca",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -158,6 +158,50 @@
                 "http"
             ],
             "time": "2019-06-29T12:11:19+00:00"
+        },
+        {
+            "name": "dor/router",
+            "version": "0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/amiraslanaslani/Dor-Router.git",
+                "reference": "bbfb9bafc688ab1e29b8a813eacc22e1a7bdb40d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/amiraslanaslani/Dor-Router/zipball/bbfb9bafc688ab1e29b8a813eacc22e1a7bdb40d",
+                "reference": "bbfb9bafc688ab1e29b8a813eacc22e1a7bdb40d",
+                "shasum": ""
+            },
+            "require": {
+                "dor/http": "0.0.0",
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Dor\\Router": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "Amir Aslan Aslani",
+                    "email": "man@amiraslan.ir",
+                    "homepage": "http://amiraslan.ir",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Dor Router Library",
+            "homepage": "http://amiraslan.ir",
+            "keywords": [
+                "Dor",
+                "router"
+            ],
+            "time": "2019-06-29T12:32:52+00:00"
         },
         {
             "name": "filp/whoops",

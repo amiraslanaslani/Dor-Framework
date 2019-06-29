@@ -10,10 +10,6 @@ namespace Dor;
 require_once(__DIR__ . '/AbstractController.php');
 require_once(__DIR__ . '/InputCheck.php');
 
-require_once(__DIR__ . '/Router/Router.php');
-require_once(__DIR__ . '/Router/Route.php');
-require_once(__DIR__ . '/Router/RouterResponseParameter.php');
-
 use Dor\Util\{
     ErrorResponse
 };
