@@ -4,7 +4,8 @@
         "illuminate/database": "^5.6",
         "symfony/console": "^4.0",
         "dor/annotationparser": "0.0.0",
-        "filp/whoops": "^2.4"
+        "filp/whoops": "^2.4",
+        "dor/http": "0.0.0"
     },
     "require-dev": {
         "symfony/web-server-bundle": "^4.0"

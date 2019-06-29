@@ -7,10 +7,6 @@
 
 namespace Dor;
 
-require_once(__DIR__ . '/Http/Request.php');
-require_once(__DIR__ . '/Http/Response.php');
-require_once(__DIR__ . '/Http/RedirectResponse.php');
-
 require_once(__DIR__ . '/AbstractController.php');
 require_once(__DIR__ . '/InputCheck.php');
 
